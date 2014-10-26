@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+
+<head>
+
+<link rel="stylesheet" href="css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="css/bootstrap.min.css">
+
+<script type="text/javascript" src="ext/handlebars-v2.0.0.js"></script>
+<script type="text/javascript" src="ext/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="ext/underscore.js"></script>
+<script type="text/javascript" src="ext/backbone.js"></script>
+<script type="text/javascript" src="ext/bootstrap.min.js"></script>
+<script type="text/javascript" src="script/app.js"></script>
+
+</head>
+
+<body>
+	<div id="app" class="container">
+			
+		<div class="table-responsive">
+			<table class="table table-striped table-bordered">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Name</th>
+						<th>Date of production</th>
+						<th>Price</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>1</td>
+						<td>Test</td>
+						<td>1982</td>
+						<td>2000000</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+	</div>
+</body>
+
+<script type="text/javascript">
+	new AppView();
+	new Router();
+	Backbone.history.start();
+</script>
+
+</html>

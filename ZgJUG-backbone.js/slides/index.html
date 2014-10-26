@@ -1,0 +1,204 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=1024" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <title>ZgJUG | Dawid Maksylewicz | backbone.js</title>
+    
+    <meta name="description" content="My talk about backbone.js among local community,  for Java developers in Zielona Góra" />
+    <meta name="author" content="Dawid Maksylewicz" />
+
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:regular,semibold,italic,italicsemibold|PT+Sans:400,700,400italic,700italic|PT+Serif:400,700,400italic,700italic" rel="stylesheet" />
+    <link href="css/impress-demo.css" rel="stylesheet" />
+    
+    <link rel="shortcut icon" href="favicon.png" />
+    <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+</head>
+
+<body class="impress-not-supported">
+
+<div class="fallback-message">
+    <p>Your browser <b>doesn't support the features required</b> by impress.js, so you are presented with a simplified version of this presentation.</p>
+    <p>For the best experience please use the latest <b>Chrome</b>, <b>Safari</b> or <b>Firefox</b> browser.</p>
+</div>
+
+<div id="impress">
+
+    <div class="step" data-x="-1000" data-y="-1500">
+        <img class="logo" src="img/logo.png"/>
+        <h1>backbone.js</h1>
+    </div>
+
+    <div class="step" data-x="0" data-y="-1500">
+        <h3>Dawid Maksylewicz - Software Developer</h3>
+        <ul>
+            <li>31 years old, living in Zielona Góra, wife & 1 year daughter</li>
+            <li>Tech stack: mostly Java & its EE, Android, lately interested in modern Java Script frameworks & Ruby on Rails</li>
+            <li>Experience: Max Elektronik, ( OFFTIME ), Volvo IT</li>
+            <li>Spare time: bike riding, geo-location services</li>
+        </ul>
+        <br/>
+        <ul>    
+            <li>https://twitter.com/dmaksylewicz</li>
+            <li>https://github.com/dmaksylewicz</li>
+            <li>dawid.maksylewicz@gmail.com</li>
+        </ul>		
+    </div>
+
+    <div class="step" data-x="1000" data-y="-1500">
+        <h3>Agenda</h3>
+        <ul>
+            <li>Single Page Applications (SPA)</li>
+            <li>What & Why</li>
+            <li>Architecture</li>
+            <li>Events</li>
+            <li>Model & Collection</li>
+            <li>View & Template</li>
+            <li>Router</li>
+            <li>Show me the code</li>
+			<li>Tips & Tricks</li>
+        </ul>
+    </div>
+
+    <div class="step" data-x="850" data-y="3000" data-rotate="90" data-scale="5">
+        <h3>Single Page Applications (SPA)...</h3>
+        <ul>
+            <li>a.k.a. Complete JavaScript UI / Single-Page JavaScript UI / Single-Page Interface (SPI)</li>
+            <li>more fluid / interactive UX</li>
+            <li>behaviour like desktop apps (less req / resp feeling)</li>
+            <li>react to data changes on the client side without complete page refrest</li>
+            <li>everything is AJAX-ed</li>
+            <li>small pieces of UI represents logical entities</li>
+            <li>change URL / back button / routes handled by JS</li>
+        </ul>        
+    </div>
+
+    <div class="step" data-x="2825" data-y="2325" data-z="-3000" data-rotate="300" data-scale="1">
+        <h3>...Single Page Applications (SPA)</h3>
+        <img class="my-img" src="img/spa-arch-gray.jpg"/>
+    </div>
+
+    <div class="step" data-x="3500" data-y="2100" data-rotate="180" data-scale="6">
+        <h3>What</h3>
+        <ul>
+            <li>JavaScript Model-View-Controller framework</li>
+            <li>extract from DocumentCloud project</li>
+            <li>jQuery & Underscore.js dependency</li>
+            <li>publish-subscribe / event-driven approach -> drives to loose coupling between objects</li>
+        	<li>minimum lib to get things done</li>
+        	<li>lightweight, still less than 1000 lines of code</li>
+        </ul>        
+    </div>
+
+    <div class="step" data-x="3500" data-y="2100" data-rotate="180" data-scale="6">
+        <h3>Why</h3>
+        <ul>
+        	<li>standarized / organized way of coding/ common patterns</li>
+        	<li>separation of roles (separated presentation logic from business logic)</li>
+        	<li>clean, maintainable code</li>
+        	<li>updates driven by events</li>
+        	<li>loose coupling UI & data</li>
+        	<li>RESTfull based data layer, brings part of data to client and works with it</li>
+        	<li>simplify server side persistence</li>
+        	<li>more testable code</li>
+        	<li>much more responsive UX</li>
+        	<li>logic is put into expected places</li>
+        </ul>        
+    </div>
+
+    <div class="step" data-x="2825" data-y="2325" data-z="-3000" data-rotate="300" >
+        <h3>Architecture</h3>
+        <img src="img/backbone-arch-gray.png"/>
+    </div>
+
+    <div class="step" data-x="2825" data-y="2325" data-z="-3000" data-rotate="300" data-scale="1">
+        <h3>Events</h3>
+        <ul>
+            <li>triggered on changes / destroy backbone objects (pre-defined events)</li>
+            <li>bound to model / collection</li>
+            <li>bound to any object by extension of Backbone.Events</li>
+        </ul>
+    </div>
+
+    <div class="step" data-x="3500" data-y="-850" data-rotate="270" data-scale="6">
+    	<h3>Model</h3>
+    	<ul>
+    		<li>data representation as well as logic surrounding it</li>
+    		<li>singe row entity</li>
+    		<li>not tied to markup, presentation, UI</li>
+    		<li>handling persistence</li>
+    		<li>bound to a view in a way that every change on the model, the view updates itself</li>
+    		<li>reusable component</li>
+    		<li>model.set("title", "test", {silent : true}) -> update without event</li>
+    	</ul>
+    </div>
+
+    <div class="step" data-x="6700" data-y="-300" data-scale="6">
+    	<h3>Collection</h3>
+    	<ul>
+    		<li>set of models with the same type</li>
+    		<li>fetches collection from the server</li>
+    		<li>uses Underscore.js goodness</li>
+    		<li>collection.create({title : "test"}, {wait : true}) -> wait for the server responde before GUI update</li>
+    	</ul>
+    </div>
+
+    <div class="step" data-x="6300" data-y="2000" data-rotate="20" data-scale="4">
+    	<h3>View</h3>
+    	<ul>
+    		<li>controller's responsibility (translates user's interactions into model changes)</li>
+    		<li>represent data from model or collection</li>
+    		<li>can be used to create DOM element with specific className or tagName</li>
+    		<li>can use existing DOM element, if 'el' is specified</li>
+    		<li>updates view (?!) when model changed</li>
+    		<li>manipulates DOM elements / delegates DOM events</li>
+    		<li>has a model or collection</li>
+    		<li>handles presentation logic for a part of UI</li>    	
+    		<li>ghost views (?!)</li>
+    	</ul>
+    </div>
+
+    <div class="step" data-x="6000" data-y="4000" data-scale="2">
+    	<h3>Templates</h3>
+    	<ul>
+    		<li>markups with binding expressions</li>
+    		<li>applied to data object which is rendered into DOM</li>
+    	</ul>
+    </div>
+
+    <div class="step" data-x="3000" data-y="1500" data-scale="10">
+    	<h3>Router</h3>
+    	<ul>
+    		<li>maps URLs to functions</li>
+    		<li>enable history & bookmarking in order to share the app state</li>
+    	</ul>
+    </div>
+
+    <div class="step" data-x="3000" data-y="1500" data-scale="10">
+        <h2>Talk is cheap. <br/>Show me the code...</h2>
+        <h4>— Linus Torvalds</h4>
+    </div>
+
+
+    <div class="step" data-x="3000" data-y="1500" data-scale="10">
+        <h3>Tips & Tricks</h3>
+    </div>
+
+</div>
+
+<div class="hint">
+    <p>Use a spacebar or arrow keys to navigate</p>
+</div>
+<script>
+if ("ontouchstart" in document.documentElement) { 
+    document.querySelector(".hint").innerHTML = "<p>Tap on the left or right to navigate</p>";
+}
+</script>
+
+<script src="js/impress.js"></script>
+<script>impress().init();</script>
+
+</body>
+</html>
