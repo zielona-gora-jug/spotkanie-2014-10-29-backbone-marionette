@@ -97,6 +97,7 @@ var AddCarView = Backbone.View.extend({
 
 	render : function() {
 		this.$el.html(this.template);
+		// notice return this
 		return this;
 	},
 
@@ -137,17 +138,23 @@ var CarsListItemView = Backbone.View.extend({
 
 var CarsListView = Backbone.View.extend({
 
+	el : "#content",
+	
 	initialize : function() {
 		this.template = Handlebars.compile(TemplateManager.get("template/car_list.html"));
+		
 		this.cars = new Cars();
-		this.listenTo(this.cars, "reset", this.render);
-		this.cars.fetch();
+		this.listenTo(this.cars, "reset", this.render, this);
+		// notice set reset as true -> Backbone.js doc 
+		// "When the model data returns from the server, it uses set to (intelligently) merge the fetched models, unless you pass {reset: true}"
+		this.cars.fetch({reset : true});
+		return this;
 	},
 
 	render : function() {
-		console.log(this.cars.models);
+		this.$el.html(this.template);
 		this.cars.each(function(car) {
-			console.log(car.toJSON());
+			
 		});
 	}
 });
