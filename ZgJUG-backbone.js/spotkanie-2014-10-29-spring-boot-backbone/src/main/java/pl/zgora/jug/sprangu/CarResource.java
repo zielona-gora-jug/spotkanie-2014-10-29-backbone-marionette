@@ -34,6 +34,11 @@ public class CarResource {
 		return car.getId();
 	}
 
+	@RequestMapping(method = RequestMethod.PUT, value = "/{id}")
+	public int update(@PathVariable Long id, @RequestBody Car car) {
+		return repo.update(car.getId(), car.getName(), car.getProductionYear(), car.getPrice());
+	}
+	
 	@RequestMapping(method = RequestMethod.DELETE, value = "/{id}")
 	public void delete(@PathVariable Long id) {
 		repo.delete(id);
