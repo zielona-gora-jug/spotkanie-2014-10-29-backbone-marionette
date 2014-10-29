@@ -33,8 +33,15 @@ var Car = Backbone.Model.extend({
 var Cars = Backbone.Collection.extend({
 	
 	model : Car,
-	url : '/cars'
+	url : '/cars',
 
+	byName: function(name) {
+		var pattern = new RegExp(name,"gi");
+	    filtered = this.filter(function(car) {
+	    	return pattern.test(car.get("name"));
+	      });
+	    return new Cars(filtered);
+	 }
 });
 
 var Router = Backbone.Router.extend({
@@ -114,7 +121,7 @@ var ListItemView = Backbone.View.extend({
 	},
 	
 	initialize : function() {
-		this.template = Handlebars.compile(TemplateManager.get("template/car_list_item.html"));
+		this.template = Handlebars.compile(TemplateManager.get("template/list_item.html"));
 	},
 
 	render : function() {
@@ -134,20 +141,39 @@ var ListItemView = Backbone.View.extend({
 
 var ListView = Backbone.View.extend({
 
-	className : "table-responsive", 
-		
+	className : "table-responsive",
+	
+	events : {
+		"keyup #filter" : "filterByName" 
+	},	
+	
 	initialize : function() {
 
 		this.cars = new Cars();
 		this.listenTo(this.cars, "reset remove", this.render, this);
 		this.cars.fetch({reset : true}); // notice reset = true, silent merge if false, otherwise re-build whole collection
+
 		return this;
 	},
 
 	render : function() {
-		this.$el.html(Handlebars.compile(TemplateManager.get("template/car_list.html")));
+		this.$el.html(Handlebars.compile(TemplateManager.get("template/list.html")));
+		this.renderList(this.cars);
+	},
+	
+	filterByName : function() {
+		var name = this.$("#filter").val();
+		if(name == "") {
+			this.renderList(this.cars);
+			return;
+		}
+		this.renderList(this.cars.byName(name));
+	},
+	
+	renderList : function(list) {
 		var rows = this.$("#rows");
-		this.cars.each(function(car) {
+		rows.empty();
+		list.byName(name).each(function(car) {
 			rows.append(new ListItemView({model : car}).render().el);
 		});
 	}
@@ -166,7 +192,7 @@ var AddOrEditView = Backbone.View.extend({
 
 	initialize : function(options) {
 		console.log("base add or edit init");
-		this.template = Handlebars.compile(TemplateManager.get("template/add_edit_car_form.html"));
+		this.template = Handlebars.compile(TemplateManager.get("template/add_edit_form.html"));
 	},
 
 	render : function() {
