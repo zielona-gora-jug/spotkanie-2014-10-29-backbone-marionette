@@ -43,41 +43,51 @@ var Router = Backbone.Router.extend({
 		"" : "home",
 		"add" : "addCar",
 		"edit/:id" : "editCar",
-		"list" : "carsList"
+		"list" : "carsList",
 	},
 
 	initialize : function() {
-
+		// notice global scope here to get header element :-(
 		this.header = new HeaderView();
-		$("#header").html(this.header.el); // notice global scope here to get header element :-(
-		
+		$("#header").append(this.header.el); 
+		this.content = $("#content");
 	},
 
 	home : function() {
-		new HomeView();
+		var homeView = new HomeView();
+		this.content.empty();
+		this.content.append(homeView.el);
 		this.header.select("home");
 	},
 
 	addCar : function() {
-		new AddOrEditView();
+		var addView = new AddView();
+		this.content.empty();
+		this.content.append(addView.el);
 		this.header.select("add");
 	},
 	
 	editCar : function(id) {
-		new AddOrEditView({id : id});
+		var editView = new EditView({id : id});
+		this.content.empty();
+		this.content.append(editView.el);
 		this.header.select("edit");
 	},
 	
 	carsList : function() {
-		new ListView();
+		var listView = new ListView();
+		this.content.empty();
+		this.content.append(listView.el);
 		this.header.select("list");
 	},
+	
+	emptyContent : function() {
+		this.content.empty();
+	}
 });
 
 
 var HomeView = Backbone.View.extend({
-
-	el : '#content',
 
 	initialize : function() {
 		this.template = Handlebars.compile(TemplateManager.get("template/home.html"));
@@ -124,8 +134,8 @@ var ListItemView = Backbone.View.extend({
 
 var ListView = Backbone.View.extend({
 
-	el : "#content",
-	
+	className : "table-responsive", 
+		
 	initialize : function() {
 
 		this.cars = new Cars();
@@ -146,36 +156,33 @@ var ListView = Backbone.View.extend({
 
 var AddOrEditView = Backbone.View.extend({
 
-	el : "#content",
-
+	tagName : "form",
+	
 	// notice listening DOM events
 	events : {
-		"click #save" : "addOrEdit",
+		"click #save" : "save",
 		"click #cancel" : "goToHome"
 	},
 
 	initialize : function(options) {
+		console.log("base add or edit init");
 		this.template = Handlebars.compile(TemplateManager.get("template/add_edit_car_form.html"));
-		this.isEditMode = options != undefined && options.id != undefined;
-		if (this.isEditMode) {
-			this.model = new Car({id : options.id});
-			this.listenTo(this.model, "change", this.render, this);
-			this.model.fetch();
-		} else {
-			this.model = new Car();
-			this.render();
-		}
 	},
 
 	render : function() {
-		this.$el.html(this.template(this.model.toJSON()));
-		return this; // notice return this
+		console.log("base add or edit render");
+		return this;
 	},
-
-	addOrEdit : function() {
+	
+	save : function() {
 		this.model.set(this.createNewAttributes());
 		this.model.save(); // notice save as an abstracted AJAX call
 		this.listenTo(this.model, "sync", this.goToList, this); // notice listening sync event on a collection
+	},
+	
+	render : function() {
+		this.$el.html(this.template(this.model.toJSON()));
+		return this; // notice return this
 	},
 	
 	createNewAttributes : function() {
@@ -188,9 +195,32 @@ var AddOrEditView = Backbone.View.extend({
 	
 	goToHome : function() {
 		router.navigate("#", true);
+		this.remove();
 	},
 	
 	goToList : function() {
 		router.navigate("#list", true);
+		this.remove();
 	}
+});
+
+var AddView = AddOrEditView.extend({
+
+	initialize : function(options) {
+		AddOrEditView.prototype.initialize.apply(this, arguments);
+		console.log("add init");
+		this.model = new Car();
+		this.render();
+	},
+});
+
+var EditView = AddOrEditView.extend({
+
+	initialize : function(options) {
+		AddOrEditView.prototype.initialize.apply(this, arguments);
+		console.log("edit init");
+		this.model = new Car({id : options.id});
+		this.listenTo(this.model, "change", this.render, this);
+		this.model.fetch();
+	},
 });
