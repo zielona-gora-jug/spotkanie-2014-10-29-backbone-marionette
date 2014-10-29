@@ -35,6 +35,8 @@ var Cars = Backbone.Collection.extend({
 	model : Car,
 	url : '/cars',
 
+	// notice logic around cars data
+	
 	byName: function(name) {
 		var pattern = new RegExp(name,"gi");
 	    filtered = this.filter(function(car) {
