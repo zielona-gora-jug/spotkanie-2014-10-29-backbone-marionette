@@ -35,7 +35,7 @@ var Cars = Backbone.Collection.extend({
 	model : Car,
 	url : '/cars',
 
-	// notice logic around cars data
+	// notice logic around data
 	
 	byName: function(name) {
 		var pattern = new RegExp(name,"gi");
@@ -97,7 +97,7 @@ var Router = Backbone.Router.extend({
 
 
 var HomeView = Backbone.View.extend({
-
+	
 	initialize : function() {
 		this.template = Handlebars.compile(TemplateManager.get("template/home.html"));
 		this.render();
@@ -197,11 +197,6 @@ var AddOrEditView = Backbone.View.extend({
 		this.template = Handlebars.compile(TemplateManager.get("template/add_edit_form.html"));
 	},
 
-	render : function() {
-		console.log("base add or edit render");
-		return this;
-	},
-	
 	save : function() {
 		this.model.set(this.createNewAttributes());
 		this.model.save(); // notice save as an abstracted AJAX call
